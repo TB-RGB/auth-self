@@ -52,7 +52,9 @@ router.post('/', rejectUnauthenticated, (req, res) => {
  */
 router.delete('/:id', rejectUnauthenticated, (req, res) => {
   // endpoint functionality
+  const user = req.user;
   const id = req.params.id;
+  console.log("checking id", id);
   const sqlText = `
   DELETE FROM item
   WHERE id = $1

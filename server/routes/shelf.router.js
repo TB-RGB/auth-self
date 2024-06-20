@@ -29,7 +29,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
  */
 router.post('/', rejectUnauthenticated, (req, res) => {
   // endpoint functionality
-  const data = req.body.data;
+  const data = req.body;
   const user = req.user;
   const sqlText = `
   INSERT INTO item

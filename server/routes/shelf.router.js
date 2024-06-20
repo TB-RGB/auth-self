@@ -82,7 +82,7 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
   SET description = $1, image_url = $2
   WHERE id = $3;
   `;
-  pool.query(sqlTest, [updatedData.description,updateData.image_url, id ])
+  pool.query(sqlText, [updatedData.description,updateData.image_url, id ])
   .then(response => {
     res.sendStatus(200);
     })

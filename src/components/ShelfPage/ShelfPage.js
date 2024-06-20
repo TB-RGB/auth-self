@@ -12,6 +12,12 @@ function ShelfPage() {
     dispatch({ type: 'FETCH_SHELF' });
   }, [dispatch]);
 
+  const handleDelete = ()=>{
+    event.preventDefault()
+    dispatch({type: "DELETE_SHELF", payload: id  })
+
+  }
+
   return (
     <>
     <div className="container">
@@ -19,7 +25,8 @@ function ShelfPage() {
       <p>All of the available items can be seen here.</p>
       <ul>
         {shelf.map((item)=>(
-          <li key={item.id}>{item.description} <img src={item.url} alt={item.description}/> </li> 
+          <li key={item.id}>{item.description} <img src={item.url} alt={item.description}/> 
+          <button onClick={()=> handleDelete(item.id)} >DELETE</button> </li>
         ))}
       </ul>
     </div>

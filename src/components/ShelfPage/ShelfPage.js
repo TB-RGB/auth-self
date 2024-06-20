@@ -14,8 +14,9 @@ function ShelfPage() {
   }, [dispatch]);
 
   const handleDelete = (item, user_id) => {
+    console.log("checking item.id", item.id);
     if (item.user_id === user_id) {
-      dispatch({ type: "DROP_ITEM", payload: user_id })
+      dispatch({ type: "DROP_ITEM", payload: item.id })
     } else {
       console.log("delete didnt work");
     }
@@ -24,7 +25,7 @@ function ShelfPage() {
 
   return (
     <>
-      <div className="container">
+      <div id='shelf' className="container">
         <h2>Shelf</h2>
         <p>All of the available items can be seen here.</p>
         <ul>

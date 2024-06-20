@@ -31,8 +31,26 @@ router.post('/', (req, res) => {
 /**
  * Delete an item if it's something the logged in user added
  */
-router.delete('/:id', (req, res) => {
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
   // endpoint functionality
+
+  const id = req.params.id
+  const sqlText = `
+    DELETE FROM item 
+    WHERE id = $1
+    AND user_id = $2;
+  `;
+
+  let toSend = [id, user.id]
+  pool.query(sqlText, toSend)
+  .then(dbRes => {
+    console.log('DELETE worked in /api/shelf!');
+    res.sendStatus(201)
+  })
+  .catch(dbErr => {
+    console.log('Error in /api/shelf ', error);
+    res.sendStatus(500);
+  })
 });
 
 /**

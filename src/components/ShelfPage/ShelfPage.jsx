@@ -7,11 +7,20 @@ import ShelfForm from '../ShelfForm/ShelfForm';
 
 function ShelfPage() {
   const shelf = useSelector((store) => store.shelfReducer)
+  const user = useSelector((store)=> store.user)
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch({ type: 'FETCH_SHELF' });
   }, [dispatch]);
+
+  const handleDelete = (item, user_id)=>{
+    event.preventDefault()
+    if (item.user_id === user_id){
+    dispatch({type: "DELETE_SHELF", payload: {user_id}  })
+    } 
+
+  }
 
   return (
     <>
@@ -21,7 +30,8 @@ function ShelfPage() {
       <ShelfForm />
       <ul>
         {shelf.map((item)=>(
-          <li key={item.id}>{item.description} <img src={item.url} alt={item.description}/> </li> 
+          <li key={item.id}>{item.description} <img src={item.url} alt={item.description}/> 
+          <button onClick={()=> handleDelete(item.user_id, user.id)} >DELETE</button> </li>
         ))}
       </ul>
     </div>

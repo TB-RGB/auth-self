@@ -1,14 +1,26 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
-
+const {
+  rejectUnauthenticated,
+} = require('../modules/authentication-middleware');
 /**
  * Get all of the items on the shelf
  */
-router.get('/', (req, res) => {
-  res.sendStatus(200); // For testing only, can be removed
+router.get('/', rejectUnauthenticated, (req, res) => {
+  const sqlText = `
+    SELECT * FROM item;
+  `;
+  pool.query(sqlText)
+  .then(dbRes => {
+    console.log('GET worked in /api/shelf!', dbRes.rows);
+    res.send(dbRes.rows);
+  })
+  .catch(dbErr => {
+    console.log('Error in /api/shelf ', dbErr);
+    res.sendStatus(500);
+  })
 });
-
 /**
  * Add an item for the logged in user to the shelf
  */

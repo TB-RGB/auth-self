@@ -14,11 +14,13 @@ function ShelfPage() {
     dispatch({ type: 'FETCH_SHELF' });
   }, [dispatch]);
 
-  const handleDelete = (item, user_id)=>{
-    event.preventDefault()
-    if (item.user_id === user_id){
-    dispatch({type: "DELETE_SHELF", payload: {user_id}  })
-    } 
+  const handleDelete = (item, user_id) => {
+    console.log("checking item.id", item.id);
+    if (item.user_id === user_id) {
+      dispatch({ type: "DROP_ITEM", payload: item.id })
+    } else {
+      console.log("delete didnt work");
+    }
 
   }
 
@@ -31,7 +33,7 @@ function ShelfPage() {
       <ul>
         {shelf.map((item)=>(
           <li key={item.id}>{item.description} <img src={item.url} alt={item.description}/> 
-          <button onClick={()=> handleDelete(item.user_id, user.id)} >DELETE</button> </li>
+          <button onClick={()=> handleDelete(item, user.id)} >DELETE</button> </li>
         ))}
       </ul>
     </div>

@@ -49,16 +49,47 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 /**
  * Delete an item if it's something the logged in user added
  */
-router.delete('/:id', (req, res) => {
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
   // endpoint functionality
+  const id = req.params.id;
+  const sqlText = `
+  DELETE FROM item
+  WHERE id = $1
+  AND user_id = $2;
+  `;
+  pool.query(sqlText, [id, user.id])
+    .then(response => {
+      console.log('DELETE works!');
+      res.sendStatus(200);
+    })
+    .catch(error => {
+      console.log('There is an error in DELETE', error);
+      res.sendStatus(500);
+    });
 });
 
 /**
  * Update an item if it's something the logged in user added
  */
-router.put('/:id', (req, res) => {
+router.put('/:id', rejectUnauthenticated, (req, res) => {
   // endpoint functionality
-});
+  const id = req.params.id;
+  const updatedData= req.body.data;
+  const user = req.user;
+  const sqlText = `
+  UPDATE item 
+  SET description = $1, image_url = $2
+  WHERE id = $3;
+  `;
+  pool.query(sqlTest, [updatedData.description,updateData.image_url, id ])
+  .then(response => {
+    res.sendStatus(200);
+    })
+    .catch(error => {
+      console.error('Error updating item', error);
+      res.sendStatus(500);
+    });
+  })
 
 /**
  * Return all users along with the total number of items

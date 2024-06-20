@@ -6,15 +6,18 @@ import { useDispatch } from 'react-redux';
 
 function ShelfPage() {
   const shelf = useSelector((store) => store.shelfReducer)
+  const user = useSelector((store)=> store.user)
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch({ type: 'FETCH_SHELF' });
   }, [dispatch]);
 
-  const handleDelete = ()=>{
+  const handleDelete = (item, user_id)=>{
     event.preventDefault()
-    dispatch({type: "DELETE_SHELF", payload: id  })
+    if (item.user_id === user_id){
+    dispatch({type: "DELETE_SHELF", payload: {user_id}  })
+    } 
 
   }
 
@@ -26,7 +29,7 @@ function ShelfPage() {
       <ul>
         {shelf.map((item)=>(
           <li key={item.id}>{item.description} <img src={item.url} alt={item.description}/> 
-          <button onClick={()=> handleDelete(item.id)} >DELETE</button> </li>
+          <button onClick={()=> handleDelete(item.user_id, user.id)} >DELETE</button> </li>
         ))}
       </ul>
     </div>
